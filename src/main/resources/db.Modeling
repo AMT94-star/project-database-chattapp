@@ -1,0 +1,29 @@
+Konceptuell modell
+Befintliga entiteter
+User
+Message
+
+Nya entiteter som behöver läggas till
+Comment
+Tag
+Profile
+
+Koppling
+User 1 -> * Message
+User 1 -> * Comment
+User 1 -> 1 Profile
+
+Message 1 -> * Comment
+Message * -> * Tag
+Comment * -> 1 User & Message
+
+Logisk modell
+User: user_id PK, username, password
+Message: message_id PK, user_id FK, text, timestamp
+Comment: comment_id PK, message_id FK, user_id FK, text, timestamp
+Profile: profile_id PK, user_id FK, image_url, description
+Tag: tag_id PK, tag_name
+
+Kopplingstabell mellan message och tag:
+message_tag: message_id FK, tag_id FK
+primary key: message_id, tag_id
