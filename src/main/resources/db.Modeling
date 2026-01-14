@@ -27,3 +27,49 @@ Tag: tag_id PK, tag_name
 Kopplingstabell mellan message och tag:
 message_tag: message_id FK, tag_id FK
 primary key: message_id, tag_id
+
+Fysisk modell:
+CREATE TABLE users (
+user_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+username VARCHAR(50) NOT NULL UNIQUE,
+password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE messages (
+message_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+user_id BIGINT NOT NULL,
+text VARCHAR(50) NOT NULL,
+timestamp DATETIME NOT NULL,
+FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE comments (
+comment_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+message_id BIGINT NOT NULL,
+user_id BIGINT NOT NULL,
+text VARCHAR(50) NOT NULL,
+timestamp DATETIME NOT NULL,
+FOREIGN KEY(message_id) REFERENCES messages(message_id),
+FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE profiles (
+profile_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+user_id BIGINT NOT NULL UNIQUE,
+image_url VARCHAR(400),
+description TEXT,
+FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE tags (
+tag_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+tag_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE messages (
+message_id BIGINT NOT NULL,
+tag_id BIGINT NOT NULL,
+PRIMARY KEY (message_id, tag_id),
+FOREIGN KEY (message_id) REFERENCES messages(message_id),
+FOREIGN KEY (tag_id) REFERENCES tags(tag_id)
+);
